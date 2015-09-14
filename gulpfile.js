@@ -3,6 +3,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var order = require('gulp-order');
+var jsdoc = require('gulp-jsdoc');
 
 gulp.task('build', function() {
   gulp.src([
