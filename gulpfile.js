@@ -8,6 +8,9 @@ gulp.task('build', function() {
   gulp.src([
     'src/Preloader.js',
     'src/Controls.js',
+    'src/Sprite.js',
+    'src/Collision.js',
+    'src/Util.js',
     'src/**/*.js'
     ])
     .pipe(concat("maned.js"))
