@@ -181,7 +181,9 @@ var CTX;
 * @constructor
 * @param {Object} obj - Game configuration object
 * @param {string} obj.className - Canvas element class name
-* @param {string} obj.width - Game screen width
+* @param {integer} obj.width - Game screen width
+* @param {integer} obj.height - Game screen height
+* @param {string} obj.background - Game background color in hexadecimal
 */
 function Maned(obj) {
   this.canvas = document.querySelector(obj.className);
