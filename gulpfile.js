@@ -5,11 +5,11 @@ var rename = require('gulp-rename');
 var order = require('gulp-order');
 
 gulp.task('build', function() {
-  gulp.src('./src/**/*.js')
-    .pipe(order([
-      "src/Preloader.js",
-      "src/Controls.js"
-    ]))
+  gulp.src([
+    'src/Preloader.js',
+    'src/Controls.js',
+    'src/**/*.js'
+    ])
     .pipe(concat("maned.js"))
     .pipe(gulp.dest("./dist"))
     .pipe(uglify())
