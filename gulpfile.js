@@ -7,7 +7,8 @@ var order = require('order');
 gulp.task('build', function() {
   gulp.src('./src/**/*.js')
     .pipe(order([
-      "src/Preloader.js"
+      "src/Preloader.js",
+      "src/Controls.js"
     ]))
     .pipe(concat("maned.js"))
     .pipe(uglify())
