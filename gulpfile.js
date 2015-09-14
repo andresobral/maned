@@ -11,6 +11,7 @@ gulp.task('build', function() {
     'src/Sprite.js',
     'src/Collision.js',
     'src/Util.js',
+    'src/Maned.js',
     'src/**/*.js'
     ])
     .pipe(concat("maned.js"))
