@@ -1,8 +1,8 @@
 var gulp = require('gulp');
-var concat = require('concat');
-var uglify = require('uglify');
-var rename = require('rename');
-var order = require('order');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
+var order = require('gulp-order');
 
 gulp.task('build', function() {
   gulp.src('./src/**/*.js')
@@ -11,6 +11,7 @@ gulp.task('build', function() {
       "src/Controls.js"
     ]))
     .pipe(concat("maned.js"))
+    .pipe(gulp.dest("./dist"))
     .pipe(uglify())
     .pipe(rename("maned.min.js"))
     .pipe(gulp.dest("./dist"))
