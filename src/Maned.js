@@ -23,7 +23,7 @@ var CTX;
     this.canvas.focus();
   }
 
-  Game.prototype.init = function() {
+  Maned.prototype.init = function() {
     if(this.preLoaded) {
       _init(this);
     } else {
@@ -33,38 +33,38 @@ var CTX;
     }
   };
 
-  Game.prototype.render = function(obj) {
+  Maned.prototype.render = function(obj) {
     this.ctx.drawImage(obj.image, obj.x, obj.y, obj.width, obj.height);
   };
 
-  Game.prototype.bg = function() {
+  Maned.prototype.bg = function() {
     _renderBackground(this);
   };
 
-  Game.prototype.on = function(customEvent, callback) {
+  Maned.prototype.on = function(customEvent, callback) {
     if(typeof callback === 'function') {
       this.events[customEvent] = callback;
     }
   };
 
-  Game.prototype.clearCanvas = function() {
+  Maned.prototype.clearCanvas = function() {
     this.ctx.clearRect(0, 0, this.width, this.height);
   };
 
-  Game.prototype.preload = function(imgArray) {
+  Maned.prototype.preload = function(imgArray) {
     var self = this;
     Preloader(imgArray, this, function() {
        self.init();
     });
   };
 
-  Game.prototype.controls = window.Controls;
+  Maned.prototype.controls = window.Controls;
 
-  Game.prototype.sprite = window.Sprite;
+  Maned.prototype.sprite = window.Sprite;
 
-  Game.prototype.collision = window.Collision;
+  Maned.prototype.collision = window.Collision;
 
-  Game.prototype.text = window.Util.text;
+  Maned.prototype.text = window.Util.text;
 
   //Private methods
 
