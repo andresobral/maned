@@ -1,54 +1,59 @@
-;(function() {
+var pushedKeys = {};
 
-  var pushedKeys = {};
+var keys = {
+  SPACE: 32,
+  ARROW_LEFT: 37,
+  ARROW_UP: 38,
+  ARROW_RIGHT: 39,
+  ARROW_DOWN: 40
+};
 
-  var keys = {
-    SPACE: 32,
-    ARROW_LEFT: 37,
-    ARROW_UP: 38,
-    ARROW_RIGHT: 39,
-    ARROW_DOWN: 40
-  };
+/**
+* Controls class. It maps the keyboard and create functions and events from the pressed keys
+* @class
+* @constructor
+*/
+function Controls() {}
 
-  function Controls() {}
+/**
+* Checks if any key is pressed
+*
+* @function
+* @param {string} keyName - Keyboard key name thats is mapped
+*/
+Controls.isPressedKey = function(keyName) {
+  return pushedKeys[keyName];
+};
 
-  Controls.isPressedKey = function(keyName) {
-    return pushedKeys[keyName];
-  };
-
-  function _getKeyByValue(value) {
-    for(var prop in keys) {
-      if(keys.hasOwnProperty(prop)) {
-        if(keys[prop] === value) {
-          return prop;
-        }
+function _getKeyByValue(value) {
+  for(var prop in keys) {
+    if(keys.hasOwnProperty(prop)) {
+      if(keys[prop] === value) {
+        return prop;
       }
     }
-    if (String.fromCharCode(value) != ' ') {
-      return String.fromCharCode(value);
-    }
   }
-
-  function _setKey(value, status) {
-    var key = _getKeyByValue(value);
-    if(key) {
-      pushedKeys[key] = status;
-    }
+  if (String.fromCharCode(value) != ' ') {
+    return String.fromCharCode(value);
   }
+}
 
-  //Events
-  window.addEventListener('keydown', function(e) {
-    _setKey(e.keyCode, true);
-  });
+function _setKey(value, status) {
+  var key = _getKeyByValue(value);
+  if(key) {
+    pushedKeys[key] = status;
+  }
+}
 
-  window.addEventListener('keyup', function(e) {
-    _setKey(e.keyCode, false);
-  });
+//Events
+window.addEventListener('keydown', function(e) {
+  _setKey(e.keyCode, true);
+});
 
-  window.addEventListener('blur', function(e) {
-      pushedKeys = {};
-  });
+window.addEventListener('keyup', function(e) {
+  _setKey(e.keyCode, false);
+});
 
-  window.Controls = Controls;
-
-})();
+window.addEventListener('blur', function(e) {
+    pushedKeys = {};
+});

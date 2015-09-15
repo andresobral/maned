@@ -21,7 +21,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Maned</h1>
+    <h1 class="page-title">Class: Sprite</h1>
 
     
 
@@ -33,7 +33,7 @@
 <header>
     
         <h2>
-        Maned
+        Sprite
         </h2>
         
     
@@ -46,14 +46,14 @@
 
     
 
-    <h4 class="name" id="Maned"><span class="type-signature"></span>new Maned<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Sprite"><span class="type-signature"></span>new Sprite<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Engine main class
+    Sprite management class
 </div>
 
 
@@ -105,7 +105,7 @@
 
             
 
-            <td class="description last">Game configuration object
+            <td class="description last">Sprite configuration object
                 <h6>Properties</h6>
                 
 
@@ -131,13 +131,13 @@
 
         <tr>
             
-                <td class="name"><code>className</code></td>
+                <td class="name"><code>img</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">HTMLDOMElement</span>
 
 
             
@@ -147,7 +147,53 @@
 
             
 
-            <td class="description last">Canvas element class name</td>
+            <td class="description last">DOM element of the image that is taken from the Maned.images array in the preload stage of the game</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Sprite x position</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Sprite y position</td>
         </tr>
 
     
@@ -170,7 +216,7 @@
 
             
 
-            <td class="description last">Game screen width</td>
+            <td class="description last">Sprite width</td>
         </tr>
 
     
@@ -193,20 +239,20 @@
 
             
 
-            <td class="description last">Game screen height</td>
+            <td class="description last">Sprite height</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>background</code></td>
+                <td class="name"><code>delay</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">integer</span>
 
 
             
@@ -216,7 +262,53 @@
 
             
 
-            <td class="description last">Game background color in hexadecimal</td>
+            <td class="description last">Value o delay the animation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>frames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number of sprite frames</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>loop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Infinity loop the animation</td>
         </tr>
 
     
@@ -264,7 +356,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Maned.js.html">Maned.js</a>, <a href="Maned.js.html#line14">line 14</a>
+        <a href="Sprite.js.html">Sprite.js</a>, <a href="Sprite.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -313,14 +405,14 @@
 
     
 
-    <h4 class="name" id="init"><span class="type-signature"></span>init<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Starts the game
+    Render the sprite without animation
 </div>
 
 
@@ -364,7 +456,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Maned.js.html">Maned.js</a>, <a href="Maned.js.html#line39">line 39</a>
+        <a href="Sprite.js.html">Sprite.js</a>, <a href="Sprite.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -395,168 +487,14 @@
 
     
 
-    <h4 class="name" id="on"><span class="type-signature"></span>on<span class="signature">(customEvent, callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Run function on a determinated game event
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>customEvent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Event name. There are three possible events "preload", "start" and "update"</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Requester~requestCallback</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback that handles the event</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Maned.js.html">Maned.js</a>, <a href="Maned.js.html#line60">line 60</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="preload"><span class="type-signature"></span>preload<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Preload assets to be used in the game
+    Render the sprite in the game loop updating the animation
 </div>
 
 
@@ -600,7 +538,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Maned.js.html">Maned.js</a>, <a href="Maned.js.html#line76">line 76</a>
+        <a href="Sprite.js.html">Sprite.js</a>, <a href="Sprite.js.html#line43">line 43</a>
     </li></ul></dd>
     
 

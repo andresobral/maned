@@ -4,7 +4,6 @@
     "dictionaries": ["jsdoc","closure"]
   },
   "source": {
-    "include": ["src/Maned.js"],
     "includePattern": ".+\\.js(doc)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },

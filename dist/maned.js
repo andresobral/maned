@@ -1,149 +1,166 @@
-;(function() {
+function Preloader(images, _this, callback) {
+  var imgObjs = {};
+  var imgList = [];
+  var counter = 0;
+  var imagesLength = images.length;
 
-  function Preloader(images, _this, callback) {
-    var imgObjs = {};
-    var imgList = [];
-    var counter = 0;
-    var imagesLength = images.length;
+  for(var i = 0; i < imagesLength; i++) {
 
-    for(var i = 0; i < imagesLength; i++) {
+    var img = new Image();
 
-      var img = new Image();
+    img.onload = function() {
+      counter++;
+      if(counter === imagesLength) {
+        _this.images = imgObjs;
+        _this.preLoaded = true;
+        callback();
+      }
+    };
 
-      img.onload = function() {
-        counter++;
-        if(counter === imagesLength) {
-          _this.images = imgObjs;
-          _this.preLoaded = true;
-          callback();
-        }
-      };
+    img.src = images[i];
+    imgObjs[images[i]] = img;
 
-      img.src = images[i];
-      imgObjs[images[i]] = img;
-
-    }
   }
+}
 
-  window.Preloader = Preloader;
+var pushedKeys = {};
 
-})();
+var keys = {
+  SPACE: 32,
+  ARROW_LEFT: 37,
+  ARROW_UP: 38,
+  ARROW_RIGHT: 39,
+  ARROW_DOWN: 40
+};
 
-;(function() {
+/**
+* Controls class. It maps the keyboard and create functions and events from the pressed keys
+* @class
+* @constructor
+*/
+function Controls() {}
 
-  var pushedKeys = {};
+/**
+* Checks if any key is pressed
+*
+* @function
+* @param {string} keyName - Keyboard key name thats is mapped
+*/
+Controls.isPressedKey = function(keyName) {
+  return pushedKeys[keyName];
+};
 
-  var keys = {
-    SPACE: 32,
-    ARROW_LEFT: 37,
-    ARROW_UP: 38,
-    ARROW_RIGHT: 39,
-    ARROW_DOWN: 40
-  };
-
-  function Controls() {}
-
-  Controls.isPressedKey = function(keyName) {
-    return pushedKeys[keyName];
-  };
-
-  function _getKeyByValue(value) {
-    for(var prop in keys) {
-      if(keys.hasOwnProperty(prop)) {
-        if(keys[prop] === value) {
-          return prop;
-        }
+function _getKeyByValue(value) {
+  for(var prop in keys) {
+    if(keys.hasOwnProperty(prop)) {
+      if(keys[prop] === value) {
+        return prop;
       }
     }
-    if (String.fromCharCode(value) != ' ') {
-      return String.fromCharCode(value);
-    }
   }
-
-  function _setKey(value, status) {
-    var key = _getKeyByValue(value);
-    if(key) {
-      pushedKeys[key] = status;
-    }
+  if (String.fromCharCode(value) != ' ') {
+    return String.fromCharCode(value);
   }
+}
 
-  //Events
-  window.addEventListener('keydown', function(e) {
-    _setKey(e.keyCode, true);
-  });
-
-  window.addEventListener('keyup', function(e) {
-    _setKey(e.keyCode, false);
-  });
-
-  window.addEventListener('blur', function(e) {
-      pushedKeys = {};
-  });
-
-  window.Controls = Controls;
-
-})();
-
-;(function() {
-
-  function Sprite(obj) {
-    this.image = obj.image;
-    this.x = obj.x;
-    this.y = obj.y;
-    this.width = obj.width;
-    this.height = obj.height;
-    this.delay = obj.delay;
-    this.loop = obj.lopp || false;
-    this.delayCounter = 0;
-    this.frames = obj.frames;
-    this.frameIndex = 0;
-    this.animated = false;
+function _setKey(value, status) {
+  var key = _getKeyByValue(value);
+  if(key) {
+    pushedKeys[key] = status;
   }
+}
 
-  Sprite.prototype.render = function() {
-    _renderImage(this, 0);
-  };
+//Events
+window.addEventListener('keydown', function(e) {
+  _setKey(e.keyCode, true);
+});
 
-  Sprite.prototype.update = function() {
-    if(this.frameIndex === (this.frames - 1)) {
-      if(this.loop) {
-        this.frameIndex = 0;
-      } else {
-        this.animated = true;
-      }
+window.addEventListener('keyup', function(e) {
+  _setKey(e.keyCode, false);
+});
+
+window.addEventListener('blur', function(e) {
+    pushedKeys = {};
+});
+
+/**
+* Sprite management class
+* @class
+* @constructor
+* @param {Object} obj - Sprite configuration object
+* @param {HTMLDOMElement} obj.img - DOM element of the image that is taken from the Maned.images array in the preload stage of the game
+* @param {integer} obj.x - Sprite x position
+* @param {integer} obj.y - Sprite y position
+* @param {integer} obj.width - Sprite width
+* @param {integer} obj.height - Sprite height
+* @param {integer} obj.delay - Value o delay the animation
+* @param {integer} obj.frames - Number of sprite frames
+* @param {boolean} obj.loop - Infinity loop the animation
+*/
+function Sprite(obj) {
+  this.image = obj.image;
+  this.x = obj.x;
+  this.y = obj.y;
+  this.width = obj.width;
+  this.height = obj.height;
+  this.delay = obj.delay;
+  this.loop = obj.lopp || false;
+  this.delayCounter = 0;
+  this.frames = obj.frames;
+  this.frameIndex = 0;
+  this.animated = false;
+}
+
+/**
+* Render the sprite without animation
+*
+* @function
+*/
+Sprite.prototype.render = function() {
+  _renderImage(this, 0);
+};
+
+/**
+* Render the sprite in the game loop updating the animation
+*
+* @function
+*/
+Sprite.prototype.update = function() {
+  if(this.frameIndex === (this.frames - 1)) {
+    if(this.loop) {
+      this.frameIndex = 0;
     } else {
-      if(this.delayCounter === this.delay) {
-        this.frameIndex++;
-        this.delayCounter = 0;
-      }
+      this.animated = true;
     }
-
-
-    var sx = this.frameIndex * this.width;
-
-     _renderImage(this, sx);
-
-    this.delayCounter++;
-
-  };
-
-  function _renderImage(_this, sx) {
-    CTX.drawImage(
-      _this.image,
-      sx,
-      0,
-      _this.width,
-      _this.height,
-      _this.x,
-      _this.y,
-      _this.width,
-      _this.height
-    );
+  } else {
+    if(this.delayCounter === this.delay) {
+      this.frameIndex++;
+      this.delayCounter = 0;
+    }
   }
 
-  window.Sprite = Sprite;
 
-})();
+  var sx = this.frameIndex * this.width;
+
+   _renderImage(this, sx);
+
+  this.delayCounter++;
+
+};
+
+function _renderImage(_this, sx) {
+  CTX.drawImage(
+    _this.image,
+    sx,
+    0,
+    _this.width,
+    _this.height,
+    _this.x,
+    _this.y,
+    _this.width,
+    _this.height
+  );
+}
 
 ;(function() {
 
