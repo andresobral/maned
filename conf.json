@@ -11,6 +11,14 @@
   "plugins": [],
   "templates": {
     "cleverLinks": false,
-    "monospaceLinks": false
+    "monospaceLinks": false,
+    "default": {
+      "layoutFile": "docstemplate/layout.tmpl",
+      "staticFiles": {
+        "include": [
+          "docstemplate/static"
+        ]
+      }
+    }
   }
 }

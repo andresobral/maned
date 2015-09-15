@@ -205,6 +205,11 @@ function Maned(obj) {
   this.canvas.focus();
 }
 
+/**
+* Starts the game
+*
+* @function
+*/
 Maned.prototype.init = function() {
   if(this.preLoaded) {
     _init(this);
@@ -215,14 +220,17 @@ Maned.prototype.init = function() {
   }
 };
 
-Maned.prototype.render = function(obj) {
-  this.ctx.drawImage(obj.image, obj.x, obj.y, obj.width, obj.height);
-};
-
 Maned.prototype.bg = function() {
   _renderBackground(this);
 };
 
+/**
+* Run function on a determinated game event
+*
+* @function
+* @param {string} customEvent - Event name. There are three possible events "preload", "start" and "update"
+* @param {Requester~requestCallback} callback - Callback that handles the event
+*/
 Maned.prototype.on = function(customEvent, callback) {
   if(typeof callback === 'function') {
     this.events[customEvent] = callback;
@@ -233,6 +241,12 @@ Maned.prototype.clearCanvas = function() {
   this.ctx.clearRect(0, 0, this.width, this.height);
 };
 
+/**
+* Preload assets to be used in the game
+*
+* @function
+* @oaram {array} imgArray - Array of image paths to be loaded
+*/
 Maned.prototype.preload = function(imgArray) {
   var self = this;
   Preloader(imgArray, this, function() {

@@ -39,7 +39,7 @@ window.onload = function() {
   var enemySpeed = 1;
 
   //enemy waves
-  var enemyWaves = 10;
+  var enemyWaves = 15;
   var enemyWavesCounter = 1;
   var enemyWavesDelay = 480;
   var enemyWavesDelayCounter = 0;
