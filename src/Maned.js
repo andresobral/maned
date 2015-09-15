@@ -1,4 +1,3 @@
-/** @global */
 var CTX;
 
 /**

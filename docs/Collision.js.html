@@ -21,32 +21,35 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: Collision.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+* Collision Class
+* @class
+* @constructor
+*/
+function Collision() {}
 
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/**
+* Detect collision between two sprites in the game
+*
+* @function
+* @param {Object} o1 - Sprite object
+* @param {Object} o2 - Sprite object
+*/
+Collision.isCollided = function(o1, o2) {
+  return o1.x + o1.width >= o2.x &amp;&amp; o1.x &lt;= o2.x + o2.width &amp;&amp; o1.y >= o2.y &amp;&amp; o1.y &lt;= o2.y + o2.height;
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

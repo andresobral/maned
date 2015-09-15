@@ -127,11 +127,10 @@ Sprite.prototype.render = function() {
 */
 Sprite.prototype.update = function() {
   if(this.frameIndex === (this.frames - 1)) {
-    if(this.loop) {
-      this.frameIndex = 0;
-    } else {
+    if(!this.loop) {
       this.animated = true;
     }
+    this.frameIndex = 0;
   } else {
     if(this.delayCounter === this.delay) {
       this.frameIndex++;
@@ -162,34 +161,50 @@ function _renderImage(_this, sx) {
   );
 }
 
-;(function() {
+/**
+* Collision Class
+* @class
+* @constructor
+*/
+function Collision() {}
 
-  function Collision() {}
+/**
+* Detect collision between two sprites in the game
+*
+* @function
+* @param {Object} o1 - Sprite object
+* @param {Object} o2 - Sprite object
+*/
+Collision.isCollided = function(o1, o2) {
+  return o1.x + o1.width >= o2.x && o1.x <= o2.x + o2.width && o1.y >= o2.y && o1.y <= o2.y + o2.height;
+}
 
-  Collision.isCollided = function(o1, o2) {
-    return o1.x + o1.width >= o2.x && o1.x <= o2.x + o2.width && o1.y >= o2.y && o1.y <= o2.y + o2.height;
-  }
+/**
+* General utilities class
+* @class
+* @constructor
+*/
+function Util() {}
 
-  window.Collision = Collision;
+/**
+* Prints text in the game screen
+*
+* @function
+* @param {string} string - The string to be printed
+* @param {integer} x - Text x position
+* @param {integer} y - Text y position
+* @param {Object} obj - Text sytles object
+* @param {string} obj.font - String with font size and font family like "30px arial"
+* @param {string} obj.color - Hexadecimal color code
+* @param {string} obj.textAlign - text alignment
+*/
+Util.text = function(string, x, y, obj) {
+  CTX.font = obj.font;
+  CTX.fillStyle = obj.color;
+  if(obj.textAlign) CTX.textAlign = obj.textAlign;
+  CTX.fillText(string, x, y);
+}
 
-})();
-
-;(function() {
-
-  function Util() {}
-
-  Util.text = function(string, x, y, obj) {
-    CTX.font = obj.font;
-    CTX.fillStyle = obj.color;
-    if(obj.textAlign) CTX.textAlign = obj.textAlign;
-    CTX.fillText(string, x, y);
-  }
-
-  window.Util = Util;
-
-})();
-
-/** @global */
 var CTX;
 
 /**

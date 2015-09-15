@@ -42,11 +42,10 @@ Sprite.prototype.render = function() {
 */
 Sprite.prototype.update = function() {
   if(this.frameIndex === (this.frames - 1)) {
-    if(this.loop) {
-      this.frameIndex = 0;
-    } else {
+    if(!this.loop) {
       this.animated = true;
     }
+    this.frameIndex = 0;
   } else {
     if(this.delayCounter === this.delay) {
       this.frameIndex++;
