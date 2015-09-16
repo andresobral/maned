@@ -70,7 +70,7 @@ window.onload = function() {
       x: 50,
       y: game.height/2 - 16,
       width: 32,
-      height: 32,
+      height: 17,
       delay: 6,
       frames: 4,
       loop: true
@@ -81,7 +81,7 @@ window.onload = function() {
       x: game.width + 50,
       y: game.height/2 - 16,
       width: 32,
-      height: 32,
+      height: 17,
       delay: 6,
       frames: 4,
       loop: true
@@ -196,7 +196,7 @@ window.onload = function() {
             x: game.width + (Math.floor((Math.random() * 181) + 50)),
             y: (Math.random() *  game.height) + 60,
             width: 32,
-            height: 32,
+            height: 17,
             delay: 6,
             frames: 4,
             loop: true
