@@ -81,7 +81,7 @@ window.onload = function() {
       x: game.width + 50,
       y: game.height/2 - 16,
       width: 32,
-      height: 17,
+      height: 32,
       delay: 6,
       frames: 4,
       loop: true
@@ -186,30 +186,26 @@ window.onload = function() {
   }
 
   function createEnemies() {
-    if(enemyWavesCounter != enemyWaves) {
-      if(enemyWavesDelayCounter == enemyWavesDelay) {
-        enemyWavesDelayCounter = 0;
-        var enemySize = enemyWavesCounter * 4;
-        for(var i = 0; i < enemySize; i++) {
-          var enemy = new game.sprite({
-            image: game.images['graphics/enemy.png'],
-            x: game.width + (Math.floor((Math.random() * 181) + 50)),
-            y: (Math.random() *  game.height) + 60,
-            width: 32,
-            height: 17,
-            delay: 6,
-            frames: 4,
-            loop: true
-          });
-          enemies.push(enemy);
-        }
-
-        enemyWavesCounter++;
+    if(enemyWavesDelayCounter == enemyWavesDelay) {
+      enemyWavesDelayCounter = 0;
+      var enemySize = enemyWavesCounter * 4;
+      for(var i = 0; i < enemySize; i++) {
+        var enemy = new game.sprite({
+          image: game.images['graphics/enemy.png'],
+          x: game.width + (Math.floor((Math.random() * 181) + 50)),
+          y: (Math.random() *  (game.height - 92)) + 60,
+          width: 32,
+          height: 32,
+          delay: 6,
+          frames: 4,
+          loop: true
+        });
+        enemies.push(enemy);
       }
-      enemyWavesDelayCounter++;
-    } else {
-      win = true;
+
+      enemyWavesCounter++;
     }
+    enemyWavesDelayCounter++;
   }
 
   function renderBullets() {
