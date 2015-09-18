@@ -25,6 +25,12 @@ window.onload = function() {
   var enemyShots = [];
   var explosions = [];
 
+  //guns
+  var item;
+  var gun = false;
+  var purpleShots = [];
+  var itemCreated = false;
+
   //Red explodion
   var redExplosion;
 
@@ -59,7 +65,9 @@ window.onload = function() {
       "graphics/shot.png",
       "graphics/enemy-shot.png",
       "graphics/explosion.png",
-      "graphics/explosion-red.png"
+      "graphics/explosion-red.png",
+      "graphics/shot-purple.png",
+      "graphics/item.png"
     ]);
   });
 
@@ -120,6 +128,7 @@ window.onload = function() {
           "summary" +
           "\n-------" +
           "\nshots: " + shots.length +
+          "\npurple shots: " + purpleShots.length +
           "\nenemies: " + enemies.length +
           "\nenemy shots: " + enemyShots.length
         );
@@ -140,13 +149,19 @@ window.onload = function() {
 
       createEnemies();
 
+      checkItems();
+
       renderEnemies();
 
       renderBullets();
 
+      if(gun) renderPurpleBullets();
+
       renderEnemyBullets();
 
       bulletsEnemyCollision();
+
+      if(gun) purpleBulletsEnemyCollision();
 
       bulletsPlayerCollision();
 
@@ -180,9 +195,46 @@ window.onload = function() {
         loop: true
       });
       shots.push(shot);
+      if(gun) {
+        var purpleShot = new game.sprite({
+          image: game.images['graphics/shot-purple.png'],
+          x: player.x,
+          y: player.y + (player.height/2),
+          width: 12,
+          height: 7,
+          delay: 10,
+          frames: 1,
+          loop: true
+        });
+        purpleShots.push(purpleShot);
+      }
       shotsDelayCounter = 0;
     }
     shotsDelayCounter++;
+  }
+
+  function checkItems() {
+    if(enemyWavesCounter == 8 && !itemCreated) {
+        item = new game.sprite({
+        image: game.images['graphics/item.png'],
+        x: game.width + 12,
+        y: 70,
+        width: 12,
+        height: 32,
+        delay: 10,
+        frames: 1,
+        loop: true
+      });
+      itemCreated = true;
+    } else if(itemCreated && !gun) {
+      item.x -= 2;
+      item.update();
+      if(game.collision.isCollided(player, item)) {
+        itemCreated = false;
+        item = null;
+        gun = true;
+      }
+    }
   }
 
   function createEnemies() {
@@ -212,10 +264,22 @@ window.onload = function() {
     var i = shots.length;
     while(i--) {
       shots[i].x += shotsSpeed;
-      if(shots[i].x > game.width) {
+       if(shots[i].x > game.width) {
         shots.splice(i, 1);
       } else {
         shots[i].update();
+      }
+    }
+  }
+
+  function renderPurpleBullets() {
+    var i = purpleShots.length;
+    while(i--) {
+      purpleShots[i].x -= shotsSpeed;
+      if(purpleShots[i].x < 0) {
+        purpleShots.splice(i, 1);
+      } else {
+        purpleShots[i].update();
       }
     }
   }
@@ -313,6 +377,33 @@ window.onload = function() {
             explosions.push(explosion);
             enemies.splice(i, 1);
             shots.splice(j, 1);
+            score += 50;
+          }
+        }
+      }
+    }
+  }
+
+  function purpleBulletsEnemyCollision() {
+    var i = enemies.length;
+
+    if(i > 0 && purpleShots.length > 0) {
+      while(i--) {
+        var j = purpleShots.length;
+        while(j--) {
+          if(game.collision.isCollided(purpleShots[j], enemies[i])) {
+            var explosion = new game.sprite({
+              image: game.images['graphics/explosion.png'],
+              x: enemies[i].x,
+              y: enemies[i].y,
+              width: 32,
+              height: 32,
+              delay: 5,
+              frames: 6
+            });
+            explosions.push(explosion);
+            enemies.splice(i, 1);
+            purpleShots.splice(j, 1);
             score += 50;
           }
         }
