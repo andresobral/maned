@@ -1,24 +1,30 @@
-function Preloader(images, _this, callback) {
-  var imgObjs = {};
-  var imgList = [];
-  var counter = 0;
-  var imagesLength = images.length;
+;(function() {
 
-  for(var i = 0; i < imagesLength; i++) {
+  function Preloader(images, _this, callback) {
+    var imgObjs = {};
+    var imgList = [];
+    var counter = 0;
+    var imagesLength = images.length;
 
-    var img = new Image();
+    for(var i = 0; i < imagesLength; i++) {
 
-    img.onload = function() {
-      counter++;
-      if(counter === imagesLength) {
-        _this.images = imgObjs;
-        _this.preLoaded = true;
-        callback();
-      }
-    };
+      var img = new Image();
 
-    img.src = images[i];
-    imgObjs[images[i]] = img;
+      img.onload = function() {
+        counter++;
+        if(counter === imagesLength) {
+          _this.images = imgObjs;
+          _this.preLoaded = true;
+          callback();
+        }
+      };
 
+      img.src = images[i];
+      imgObjs[images[i]] = img;
+
+    }
   }
-}
+
+  window.Preloader = Preloader;
+
+})();

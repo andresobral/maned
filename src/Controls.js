@@ -1,59 +1,54 @@
-var pushedKeys = {};
+;(function() {
 
-var keys = {
-  SPACE: 32,
-  ARROW_LEFT: 37,
-  ARROW_UP: 38,
-  ARROW_RIGHT: 39,
-  ARROW_DOWN: 40
-};
+  var pushedKeys = {};
 
-/**
-* Controls class. It maps the keyboard and create functions and events from the pressed keys
-* @class
-* @constructor
-*/
-function Controls() {}
+  var keys = {
+    SPACE: 32,
+    ARROW_LEFT: 37,
+    ARROW_UP: 38,
+    ARROW_RIGHT: 39,
+    ARROW_DOWN: 40
+  };
 
-/**
-* Checks if any key is pressed
-*
-* @function
-* @param {string} keyName - Keyboard key name thats is mapped
-*/
-Controls.isPressedKey = function(keyName) {
-  return pushedKeys[keyName];
-};
+  function Controls() {}
 
-function _getKeyByValue(value) {
-  for(var prop in keys) {
-    if(keys.hasOwnProperty(prop)) {
-      if(keys[prop] === value) {
-        return prop;
+  Controls.isPressedKey = function(keyName) {
+    return pushedKeys[keyName];
+  };
+
+  function _getKeyByValue(value) {
+    for(var prop in keys) {
+      if(keys.hasOwnProperty(prop)) {
+        if(keys[prop] === value) {
+          return prop;
+        }
       }
     }
+    if (String.fromCharCode(value) != ' ') {
+      return String.fromCharCode(value);
+    }
   }
-  if (String.fromCharCode(value) != ' ') {
-    return String.fromCharCode(value);
+
+  function _setKey(value, status) {
+    var key = _getKeyByValue(value);
+    if(key) {
+      pushedKeys[key] = status;
+    }
   }
-}
 
-function _setKey(value, status) {
-  var key = _getKeyByValue(value);
-  if(key) {
-    pushedKeys[key] = status;
-  }
-}
+  //Events
+  window.addEventListener('keydown', function(e) {
+    _setKey(e.keyCode, true);
+  });
 
-//Events
-window.addEventListener('keydown', function(e) {
-  _setKey(e.keyCode, true);
-});
+  window.addEventListener('keyup', function(e) {
+    _setKey(e.keyCode, false);
+  });
 
-window.addEventListener('keyup', function(e) {
-  _setKey(e.keyCode, false);
-});
+  window.addEventListener('blur', function(e) {
+      pushedKeys = {};
+  });
 
-window.addEventListener('blur', function(e) {
-    pushedKeys = {};
-});
+  window.Controls = Controls;
+
+})();
