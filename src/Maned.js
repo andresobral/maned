@@ -93,7 +93,7 @@ var CTX;
   }
 
   function _renderBackground(_this) {
-    _this.ctx.fillStyle = '#000';
+    _this.ctx.fillStyle = _this.background;
     _this.ctx.fillRect(0, 0, _this.width, _this.height);
   }
 
