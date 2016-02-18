@@ -7,6 +7,16 @@ window.onload = function() {
     background: '#fff'
   });
 
+  var nodeSize = 10;
+  var snakeSpeed = 2;
+
+  var score = 0;
+  var snake = [];
+  var food = [];
+  var direction = 'right';
+  var turnPoint = {};
+  var foodOnStage = false;
+
   game.on('preload', function() {
     console.log('Preload...');
     game.preload([]);
@@ -14,12 +24,186 @@ window.onload = function() {
 
   game.on('start', function() {
     console.log('Start...');
+    snake.push({
+      x: game.width / 2,
+      y: game.height / 2,
+      width: nodeSize,
+      height: nodeSize
+    });
+    createFood();
+    foodOnStage = true;
   });
 
   game.on('update', function() {
-    // console.log(i + 1);
+    if(game.controls.isPressedKey('ARROW_UP')) {
+      direction = 'up';
+    }
+
+    if(game.controls.isPressedKey('ARROW_RIGHT')) {
+      direction = 'right';
+    }
+
+    if(game.controls.isPressedKey('ARROW_DOWN')) {
+      direction = 'down';
+    }
+
+    if(game.controls.isPressedKey('ARROW_LEFT')) {
+      direction = 'left';
+    }
+
+    if(game.controls.isPressedKey('S')) {
+      console.log("snake nodes: " + snake.length);
+      console.log(snake);
+    }
+
+    snakeEdges();
+    moveSnake();
+    renderSnake();
+    createFood();
+    renderFood();
+    checkCollision();
+    updateScore();
   });
 
   game.init();
+
+  function createFood() {
+    if(!foodOnStage) {
+      food.push({
+        x: Math.floor(Math.random() * game.width + 1),
+        y: Math.floor(Math.random() * game.height + 1),
+        width: nodeSize,
+        height: nodeSize
+      });
+      foodOnStage = true;
+    }
+  }
+
+  function renderFood() {
+    var foodSize = food.length;
+
+    for(var i = 0; i < foodSize; i++) {
+      game.ctx.fillStyle = "orange";
+      game.ctx.fillRect(food[i].x, food[i].y, nodeSize, nodeSize);
+    }
+  }
+
+  function moveSnake() {
+    var snakeSize = snake.length;
+
+    if(direction == 'right') {
+      for(var i = 0; i < snakeSize; i++) {
+        snake[i].x += snakeSpeed;
+      }
+    }
+
+    if(direction == 'up') {
+      for(var i = 0; i < snakeSize; i++) {
+        snake[i].y -= snakeSpeed;
+      }
+    }
+
+    if(direction == 'left') {
+      for(var i = 0; i < snakeSize; i++) {
+        snake[i].x -= snakeSpeed;
+      }
+    }
+
+    if(direction == 'down') {
+      for(var i = 0; i < snakeSize; i++) {
+        snake[i].y += snakeSpeed;
+      }
+    }
+  }
+
+  function renderSnake() {
+    var snakeSize = snake.length;
+
+    for(var i = 0; i < snakeSize; i++) {
+      game.ctx.fillStyle = "#000";
+      game.ctx.fillRect(snake[i].x, snake[i].y, nodeSize, nodeSize);
+    }
+  }
+
+  function snakeEdges() {
+    var snakeSize = snake.length;
+
+    for(var i = 0; i < snakeSize; i++) {
+      if(snake[i].x < 0) {
+        snake[i].x = 0;
+      }
+
+      if(snake[i].y < 0) {
+        snake[i].y = 0;
+      }
+
+      if(snake[i].x > game.width - nodeSize) {
+        snake[i].x = game.width - nodeSize;
+      }
+
+      if(snake[i].y > game.height - nodeSize) {
+        snake[i].y = game.height - nodeSize;
+      }
+    }
+  }
+
+  function checkCollision() {
+    var foodSize = food.length;
+
+    for(var i = 0; i < foodSize; i++) {
+      if(game.collision.isCollided(snake[0], food[i])) {
+        food.splice(i, 1);
+        foodOnStage = false;
+        addNodeToSnake();
+        score += 100;
+      }
+    }
+  }
+
+  function addNodeToSnake() {
+    var snakeSize = snake.length;
+    var i = snakeSize - 1;
+    var obj = {};
+    if(direction == 'right') {
+      obj = {
+        x: snake[i].x - nodeSize,
+        y: snake[i].y,
+        width: nodeSize,
+        height: nodeSize
+      }
+    }
+    if(direction == 'up') {
+      obj = {
+        x: snake[i].x,
+        y: snake[i].y - nodeSize,
+        width: nodeSize,
+        height: nodeSize
+      }
+    }
+    if(direction == 'left') {
+      obj = {
+        x: snake[i].x + nodeSize,
+        y: snake[i].y,
+        width: nodeSize,
+        height: nodeSize
+      }
+    }
+    if(direction == 'down') {
+      obj = {
+        x: snake[i].x,
+        y: snake[i].y + nodeSize,
+        width: nodeSize,
+        height: nodeSize
+      }
+    }
+    snake.push(obj);
+  }
+
+  function updateScore() {
+    game.text(score, 30, 30, {
+      font: "22px Arial",
+      color: "#000"
+    });
+  }
 
 };
