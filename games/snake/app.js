@@ -28,7 +28,8 @@ window.onload = function() {
       x: game.width / 2,
       y: game.height / 2,
       width: nodeSize,
-      height: nodeSize
+      height: nodeSize,
+      direction: 'right'
     });
     createFood();
     foodOnStage = true;
@@ -91,27 +92,23 @@ window.onload = function() {
   function moveSnake() {
     var snakeSize = snake.length;
 
-    if(direction == 'right') {
-      for(var i = 0; i < snakeSize; i++) {
-        snake[i].x += snakeSpeed;
-      }
-    }
-
-    if(direction == 'up') {
-      for(var i = 0; i < snakeSize; i++) {
-        snake[i].y -= snakeSpeed;
-      }
-    }
-
-    if(direction == 'left') {
-      for(var i = 0; i < snakeSize; i++) {
-        snake[i].x -= snakeSpeed;
-      }
-    }
-
-    if(direction == 'down') {
-      for(var i = 0; i < snakeSize; i++) {
-        snake[i].y += snakeSpeed;
+    for(var i = 0; i < snakeSize; i++) {
+      if(i == 0) {
+        switch(direction) {
+          case 'right': snake[i].x += snakeSpeed; break;
+          case 'up': snake[i].y -= snakeSpeed; break;
+          case 'left': snake[i].x -= snakeSpeed; break;
+          case 'down': snake[i].y += snakeSpeed; break;
+        }
+      } else {
+        if(typeof snake[i - 1] !== 'undefined') {
+          switch(snake[i - 1].direction) {
+            case 'right': snake[i].x += snakeSpeed; break;
+            case 'up': snake[i].y -= snakeSpeed; break;
+            case 'left': snake[i].x -= snakeSpeed; break;
+            case 'down': snake[i].y += snakeSpeed; break;
+          }
+        }
       }
     }
   }
@@ -169,7 +166,8 @@ window.onload = function() {
         x: snake[i].x - nodeSize,
         y: snake[i].y,
         width: nodeSize,
-        height: nodeSize
+        height: nodeSize,
+        direction: direction
       }
     }
     if(direction == 'up') {
@@ -177,7 +175,8 @@ window.onload = function() {
         x: snake[i].x,
         y: snake[i].y - nodeSize,
         width: nodeSize,
-        height: nodeSize
+        height: nodeSize,
+        direction: direction
       }
     }
     if(direction == 'left') {
@@ -185,7 +184,8 @@ window.onload = function() {
         x: snake[i].x + nodeSize,
         y: snake[i].y,
         width: nodeSize,
-        height: nodeSize
+        height: nodeSize,
+        direction: direction
       }
     }
     if(direction == 'down') {
@@ -193,7 +193,8 @@ window.onload = function() {
         x: snake[i].x,
         y: snake[i].y + nodeSize,
         width: nodeSize,
-        height: nodeSize
+        height: nodeSize,
+        direction: direction
       }
     }
     snake.push(obj);
