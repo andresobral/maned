@@ -38,18 +38,22 @@ window.onload = function() {
   game.on('update', function() {
     if(game.controls.isPressedKey('ARROW_UP')) {
       direction = 'up';
+      moveSnake();
     }
 
     if(game.controls.isPressedKey('ARROW_RIGHT')) {
       direction = 'right';
+      moveSnake();
     }
 
     if(game.controls.isPressedKey('ARROW_DOWN')) {
       direction = 'down';
+      moveSnake();
     }
 
     if(game.controls.isPressedKey('ARROW_LEFT')) {
       direction = 'left';
+      moveSnake();
     }
 
     if(game.controls.isPressedKey('S')) {
@@ -58,7 +62,7 @@ window.onload = function() {
     }
 
     snakeEdges();
-    moveSnake();
+    // moveSnake();
     renderSnake();
     createFood();
     renderFood();
@@ -94,21 +98,19 @@ window.onload = function() {
 
     for(var i = 0; i < snakeSize; i++) {
       if(i == 0) {
-        switch(direction) {
-          case 'right': snake[i].x += snakeSpeed; break;
-          case 'up': snake[i].y -= snakeSpeed; break;
-          case 'left': snake[i].x -= snakeSpeed; break;
-          case 'down': snake[i].y += snakeSpeed; break;
-        }
+        snake[i].direction = direction;
       } else {
         if(typeof snake[i - 1] !== 'undefined') {
-          switch(snake[i - 1].direction) {
-            case 'right': snake[i].x += snakeSpeed; break;
-            case 'up': snake[i].y -= snakeSpeed; break;
-            case 'left': snake[i].x -= snakeSpeed; break;
-            case 'down': snake[i].y += snakeSpeed; break;
-          }
+          console.log(snake[i - 1].direction);
+          snake[i].direction = snake[i - 1].direction;
         }
+      }
+
+      switch(snake[i].direction) {
+        case 'right': snake[i].x += snakeSpeed; break;
+        case 'up': snake[i].y -= snakeSpeed; break;
+        case 'left': snake[i].x -= snakeSpeed; break;
+        case 'down': snake[i].y += snakeSpeed; break;
       }
     }
   }
