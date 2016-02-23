@@ -2,58 +2,47 @@ window.onload = function() {
 
   var game = new Maned({
     className: '.engine',
-    width: 600,
-    height: 400,
-    background: '#fff'
+    width: 400,
+    height: 320,
+    background: '#fff',
+    fps: 5
   });
 
-  var nodeSize = 10;
-  var snakeSpeed = 2;
+  var grid;
+  var snake;
+  var nodeSize = 20;
+  var snakeSpeed = 20;
 
   var score = 0;
-  var snake = [];
-  var food = [];
-  var direction = 'right';
-  var turnPoint = {};
-  var foodOnStage = false;
 
   game.on('preload', function() {
-    console.log('Preload...');
     game.preload([]);
   });
 
   game.on('start', function() {
-    console.log('Start...');
-    snake.push({
-      x: game.width / 2,
-      y: game.height / 2,
-      width: nodeSize,
-      height: nodeSize,
-      direction: 'right'
-    });
-    createFood();
-    foodOnStage = true;
+    grid = new Grid(game.height / nodeSize, game.width / nodeSize);
+    snake = new Snake ('right', 10, 8);
   });
 
   game.on('update', function() {
     if(game.controls.isPressedKey('ARROW_UP')) {
-      direction = 'up';
-      moveSnake();
+      // direction = 'up';
+      // moveSnake();
     }
 
     if(game.controls.isPressedKey('ARROW_RIGHT')) {
-      direction = 'right';
-      moveSnake();
+      // direction = 'right';
+      // moveSnake();
     }
 
     if(game.controls.isPressedKey('ARROW_DOWN')) {
-      direction = 'down';
-      moveSnake();
+      // direction = 'down';
+      // moveSnake();
     }
 
     if(game.controls.isPressedKey('ARROW_LEFT')) {
-      direction = 'left';
-      moveSnake();
+      // direction = 'left';
+      // moveSnake();
     }
 
     if(game.controls.isPressedKey('S')) {
@@ -61,152 +50,68 @@ window.onload = function() {
       console.log(snake);
     }
 
-    snakeEdges();
-    // moveSnake();
-    renderSnake();
-    createFood();
-    renderFood();
-    checkCollision();
-    updateScore();
+    // render();
   });
 
   game.init();
 
-  function createFood() {
-    if(!foodOnStage) {
-      food.push({
-        x: Math.floor(Math.random() * game.width + 1),
-        y: Math.floor(Math.random() * game.height + 1),
-        width: nodeSize,
-        height: nodeSize
-      });
-      foodOnStage = true;
-    }
-  }
+  function Grid(cols, rows) {
+    this.cols = cols;
+    this.rows = rows;
+    this.arr = [];
+    console.log(this);
 
-  function renderFood() {
-    var foodSize = food.length;
-
-    for(var i = 0; i < foodSize; i++) {
-      game.ctx.fillStyle = "orange";
-      game.ctx.fillRect(food[i].x, food[i].y, nodeSize, nodeSize);
-    }
-  }
-
-  function moveSnake() {
-    var snakeSize = snake.length;
-
-    for(var i = 0; i < snakeSize; i++) {
-      if(i == 0) {
-        snake[i].direction = direction;
-      } else {
-        if(typeof snake[i - 1] !== 'undefined') {
-          console.log(snake[i - 1].direction);
-          snake[i].direction = snake[i - 1].direction;
-        }
-      }
-
-      switch(snake[i].direction) {
-        case 'right': snake[i].x += snakeSpeed; break;
-        case 'up': snake[i].y -= snakeSpeed; break;
-        case 'left': snake[i].x -= snakeSpeed; break;
-        case 'down': snake[i].y += snakeSpeed; break;
+    for(var i = 0; i < cols; i++) {
+      this.arr.push([]);
+      for(var j = 0; j < cols; j++) {
+        this.arr[i].push(0);
       }
     }
   }
 
-  function renderSnake() {
-    var snakeSize = snake.length;
+  Grid.prototype.getEntity = function(x, y) {
+    // console.log(x + ' - ' + y);
+    return this.arr[x][y];
+  };
 
-    for(var i = 0; i < snakeSize; i++) {
-      game.ctx.fillStyle = "#000";
-      game.ctx.fillRect(snake[i].x, snake[i].y, nodeSize, nodeSize);
-    }
+  function Snake(direction, col, row) {
+    this.direction = direction;
+    this.queue = [];
+    console.log(this);
   }
 
-  function snakeEdges() {
-    var snakeSize = snake.length;
-
-    for(var i = 0; i < snakeSize; i++) {
-      if(snake[i].x < 0) {
-        snake[i].x = 0;
-      }
-
-      if(snake[i].y < 0) {
-        snake[i].y = 0;
-      }
-
-      if(snake[i].x > game.width - nodeSize) {
-        snake[i].x = game.width - nodeSize;
-      }
-
-      if(snake[i].y > game.height - nodeSize) {
-        snake[i].y = game.height - nodeSize;
-      }
-    }
-  }
-
-  function checkCollision() {
-    var foodSize = food.length;
-
-    for(var i = 0; i < foodSize; i++) {
-      if(game.collision.isCollided(snake[0], food[i])) {
-        food.splice(i, 1);
-        foodOnStage = false;
-        addNodeToSnake();
-        score += 100;
-      }
-    }
-  }
-
-  function addNodeToSnake() {
-    var snakeSize = snake.length;
-    var i = snakeSize - 1;
-    var obj = {};
-    if(direction == 'right') {
-      obj = {
-        x: snake[i].x - nodeSize,
-        y: snake[i].y,
-        width: nodeSize,
-        height: nodeSize,
-        direction: direction
-      }
-    }
-    if(direction == 'up') {
-      obj = {
-        x: snake[i].x,
-        y: snake[i].y - nodeSize,
-        width: nodeSize,
-        height: nodeSize,
-        direction: direction
-      }
-    }
-    if(direction == 'left') {
-      obj = {
-        x: snake[i].x + nodeSize,
-        y: snake[i].y,
-        width: nodeSize,
-        height: nodeSize,
-        direction: direction
-      }
-    }
-    if(direction == 'down') {
-      obj = {
-        x: snake[i].x,
-        y: snake[i].y + nodeSize,
-        width: nodeSize,
-        height: nodeSize,
-        direction: direction
-      }
-    }
-    snake.push(obj);
-  }
-
-  function updateScore() {
-    game.text(score, 30, 30, {
-      font: "22px Arial",
-      color: "#000"
+  Snake.prototype.insert = function(row, col) {
+    this.queue.unshift({
+      x: transformPositionX(row),
+      y: transformPositionX(col)
     });
+    this.last = this.queue[0];
+  };
+
+  function transformPositionX(row) {
+    return row * nodeSize;
+  }
+
+  function transformPositionY(col) {
+    return col * nodeSize;
+  }
+
+  function render() {
+    for(var i = 0; i < grid.rows; i++) {
+      for(var j = 0; j < grid.cols; j++) {
+        // grid.getEntity(i, j);
+        console.log(grid.getEntity(i, j));
+        switch(grid.getEntity(i, j)) {
+          case 0:
+            game.ctx.fillStyle = "#fff";
+            break;
+          case 1:
+            game.ctx.fillStyle = "blue";
+            break;
+        }
+        game.ctx.fillRect(i * nodeSize, j * nodeSize, nodeSize, nodeSize);
+      }
+    }
   }
 
 };
