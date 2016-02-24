@@ -1,7 +1,7 @@
 var game;
 var grid;
 var snake;
-var score = 0;
+var score;
 
 var nodeSize = 20;
 
@@ -92,6 +92,7 @@ function updateScore() {
 }
 
 function init() {
+  score = 0;
   grid = new Grid('right', 20, 16);
   snake = new Snake('right', 10, 8);
   grid.setEntity(1, 10, 8);
@@ -103,7 +104,7 @@ game = new Maned({
   width: 400,
   height: 320,
   background: '#fff',
-  fps: 5
+  fps: 10
 });
 
 game.on('preload', function() {
