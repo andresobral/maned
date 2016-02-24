@@ -19,6 +19,7 @@ gulp.task('build', function() {
     .pipe(uglify())
     .pipe(rename("maned.min.js"))
     .pipe(gulp.dest("./dist"))
+    .pipe(gulp.dest("./site/dist"))
 });
 
 gulp.task('watch', function() {
