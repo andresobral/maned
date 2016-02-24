@@ -180,6 +180,8 @@ var CTX;
 
 ;(function() {
 
+  var fpsInterval, startTime, now, then, elapsedTime;
+
   function Maned(obj) {
     this.canvas = document.querySelector(obj.className);
     this.ctx = this.canvas.getContext('2d');
@@ -187,20 +189,20 @@ var CTX;
     this.width = obj.width;
     this.height = obj.height;
     this.background = obj.background || '#fff';
-    this.statuses = {
-      gameTime: 0
-    };
-    this.states = {};
-    this.events = {};
-    this.lastTick;
-    this.dt;
     this.images = [];
+    this.events = {};
     this.preLoaded = false;
+    this.fps = obj.fps;
 
     this.canvas.focus();
   }
 
   Maned.prototype.init = function() {
+
+    fpsInterval = 1000 / this.fps;
+    then = Date.now();
+    startTime = then;
+
     if(this.preLoaded) {
       _init(this);
     } else {
@@ -253,19 +255,25 @@ var CTX;
 
   function _gameLoop(_this) {
 
-    var currentTick = Date.now();
-    var dt = (currentTick - _this.lastTick) / 1000.0;
-
     window.requestAnimationFrame(function() {
       _gameLoop(_this);
     });
 
-    _this.clearCanvas();
+    now = Date.now();
+    elapsedTime = now - then;
 
-    _renderBackground(_this);
+    if(elapsedTime > fpsInterval) {
 
-    if(_this.events['update']) {
-      _this.events['update']();
+      then = now - (elapsedTime % fpsInterval);
+
+      _this.clearCanvas();
+
+      _renderBackground(_this);
+
+      if(_this.events['update']) {
+        _this.events['update']();
+      }
+
     }
 
   }

@@ -5,7 +5,8 @@ window.onload = function() {
     className: '.engine',
     width: 600,
     height: 400,
-    background: '#000'
+    background: '#000',
+    fps: 60
   });
 
   var images = [];
