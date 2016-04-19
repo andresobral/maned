@@ -12,6 +12,7 @@ var CTX;
     this.height = obj.height;
     this.background = obj.background || '#fff';
     this.images = [];
+    this.data = [];
     this.events = {};
     this.preLoaded = false;
     this.fps = obj.fps;
@@ -60,6 +61,8 @@ var CTX;
   Maned.prototype.sprite = window.Sprite;
 
   Maned.prototype.collision = window.Collision;
+
+  Maned.prototype.tile = window.Tile;
 
   Maned.prototype.text = window.Util.text;
 

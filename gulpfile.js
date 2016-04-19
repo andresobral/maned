@@ -11,11 +11,13 @@ gulp.task('build', function() {
     'src/Sprite.js',
     'src/Collision.js',
     'src/Util.js',
+    'src/Tile.js',
     'src/Maned.js',
     'src/**/*.js'
     ])
     .pipe(concat("maned.js"))
     .pipe(gulp.dest("./dist"))
+    .pipe(gulp.dest("./site/dist"))
     .pipe(uglify())
     .pipe(rename("maned.min.js"))
     .pipe(gulp.dest("./dist"))
