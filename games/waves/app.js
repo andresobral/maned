@@ -10,11 +10,15 @@ window.onload = function() {
   var player;
   var playerSpeed = 10;
 
+  var coins = [];
+  var score = 0;
+
   game.on('preload', function() {
     console.log('preload...');
     game.preload([
       "assets/tiles.png",
       "assets/player.png",
+      "assets/coin.png",
       "assets/scene.json"
     ]);
   });
@@ -52,13 +56,64 @@ window.onload = function() {
 
     updateScene();
 
+    checkCollisions();
+
+    checkCoins();
+
     player.update();
+
+    updateScore();
   });
 
   game.init();
 
   function updateScene() {
     new game.tile(game.data[0], game.images['assets/tiles.png']);
+  }
+
+  function checkCoins() {
+    var coinLength = coins.length;
+    if(coinLength == 0) {
+      var coinCounter = Math.round(Math.random() * (3 - 1) + 1);
+      for(var i = 0; i < coinCounter; i++) {
+        var coin = new game.sprite({
+          image: game.images['assets/coin.png'],
+          x: Math.round(Math.random() * (game.width - 1) + 1),
+          y: Math.round(Math.random() * (game.height - 1) + 1),
+          width: 16,
+          height: 16,
+          delay: 0,
+          frames: 1,
+          loop: true
+        });
+        coins.push(coin);
+      }
+    } else {
+      for(var i = 0; i < coinLength; i++) {
+        coins[i].update();
+      }
+    }
+  }
+
+  function checkCollisions() {
+    var i = coins.length;
+
+    if(i > 0) {
+      while(i--) {
+        if(game.collision.isCollided(player, coins[i])) {
+          coins.splice(i, 1);
+          score += 100;
+        }
+      }
+    }
+  }
+
+  function updateScore() {
+    game.text(score, game.width/2, 50, {
+      font: "22px Arial",
+      color: "#fff",
+      textAlign: "center"
+    });
   }
 
 };
