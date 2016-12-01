@@ -64,6 +64,8 @@ var CTX;
 
   Maned.prototype.tile = window.Tile;
 
+  Maned.prototype.gravity = window.Gravity;
+
   Maned.prototype.text = window.Util.text;
 
   //Private methods

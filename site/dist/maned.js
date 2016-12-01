@@ -146,6 +146,7 @@
     this.image = obj.image;
     this.x = obj.x;
     this.y = obj.y;
+    this.vy = obj.y || 0;
     this.width = obj.width;
     this.height = obj.height;
     this.delay = obj.delay;
@@ -293,6 +294,22 @@
 
 })();
 
+;(function() {
+
+  function Gravity(obj, amount, bounce, game) {
+    obj.vy += amount;
+    obj.y += obj.vy;
+
+
+    if(obj.y > game.height - obj.height) {
+      obj.y = game.height - obj.height;
+    }
+  }
+
+  window.Gravity = Gravity;
+
+})();
+
 var CTX;
 
 ;(function() {
@@ -358,6 +375,8 @@ var CTX;
   Maned.prototype.collision = window.Collision;
 
   Maned.prototype.tile = window.Tile;
+
+  Maned.prototype.gravity = window.Gravity;
 
   Maned.prototype.text = window.Util.text;
 
