@@ -4,6 +4,7 @@
     this.image = obj.image;
     this.x = obj.x;
     this.y = obj.y;
+    this.vy = obj.y || 0;
     this.width = obj.width;
     this.height = obj.height;
     this.delay = obj.delay;

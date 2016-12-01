@@ -12,6 +12,7 @@ gulp.task('build', function() {
     'src/Collision.js',
     'src/Util.js',
     'src/Tile.js',
+    'src/Gravity.js',
     'src/Maned.js',
     'src/**/*.js'
     ])
