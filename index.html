@@ -3,57 +3,49 @@
 <head>
   <meta charset="utf-8">
   <title>Maned: 2d HTML5 Game Engine</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font: 16px helvetica, arial, sans-serif;
-      color: #333;
-    }
-
-    .content {
-      width: 400px;
-      margin: 30px auto 0;
-    }
-
-    h1, h2 {
-      margin-bottom: 15px;
-    }
-
-    ul {
-      list-style-position: inside;
-    }
-
-    ul li {
-      margin-bottom: 8px;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+  <link rel="stylesheet" href="stylesheets/styles.css">
 </head>
 
 <body>
 
   <div class="content">
 
-    <h1>Maned: 2d HTML5 Game Engine</h1>
+    <a href="/" class="logo" title="Maned">Maned</a>
 
-    <h2>Games Samples:</h2>
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/" class="menu__link">home</a>
+        </li>
+        <li>
+          <a href="/docs.html" class="menu__link">documentation</a>
+        </li>
+        <li>
+          <a href="/examples.html" class="menu__link">examples</a>
+        </li>
+      </ul>
+    </nav>
 
-    <ul>
-      <li>
-        <a href="games/snake/index.html">Snake</a>
-      </li>
+    <div class="intro">
+      Maned is a 2d game engine based on events. It's pretty simple and basic,<br>but you can create simple games and prototype very fast.
+    </div>
 
-      <li>
-        <a href="games/ship/index.html">Ship</a>
-      </li>
+    <div class="download-text">Download version 0.0.1</div>
 
-      <li>
-        <a href="games/waves/index.html">Waves</a>
-      </li>
-    </ul>
+    <div class="download-wrapper">
+      <a href="#" class="download-button">Download Maned</a>
+    </div>
+
+
+    <p class="featured-text">Creating a new game is very simple</p>
+    <div class="embed-gist">
+      <script src="https://gist.github.com/andresobral/943323b6864c75bef8077f6f9d99653f.js"></script>
+    </div>
+
+    <div class="footer">
+      Made with <span class="love">♥</span> by <a href="https://github.com/andresobral" target="_blank">André Sobral</a>
+    </div>
 
   </div>
 
