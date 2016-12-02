@@ -1,5 +1,8 @@
 # Maned
 
-#### [Work in progress]
+Maned is a 2d game engine based on events. It's pretty simple and basic,
+but you can create simple games and prototype very fast.
 
-Experimental HTML5 2d Game Engine
+## License
+
+[MIT License](http://mit-license.org/) © André Sobral
